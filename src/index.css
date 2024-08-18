@@ -1,40 +1,54 @@
-@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');
+@import url("https://fonts.googleapis.com/css?family=Inter:700|Inter:400");
 
-body {
-  font-family: 'Inter';
-  font-weight: 400;
+:root {
+  /*==========COLORS==========*/
+  --text-color: #eeeff6;
+  --background: #07070e;
+  --container-color: hsl(0, 1%, 17%);
+  --primary-color: #8c93d9;
+  --secondary-color: #222a87;
+  --accent-color: #434edf;
+
+  /*==========TYPOGRAPHY==========*/
+  --body-font: "Inter", sans-serif;
+  --h1-font-size: 3rem;
+  --h2-font-size: 2rem;
+  --h3-font-size: 1.5rem;
+  --normal-font-size: 1.5rem;
+  --small-font-size: 0.9rem;
+  --smaller-font-size: 0.813rem;
+
+  --font-weight-500: 500;
+  --font-weight-600: 600;
+  --font-weight-700: 700;
+
+  --shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
+
+  --border-radius: 20px;
 }
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Inter';
-  font-weight: 700;
-}
-
-html {font-size: 100%;} /* 16px */
-
-h1 {font-size: 4.210rem; /* 67.36px */}
-
-h2 {font-size: 3.158rem; /* 50.56px */}
-
-h3 {font-size: 2.369rem; /* 37.92px */}
-
-h4 {font-size: 1.777rem; /* 28.48px */}
-
-h5 {font-size: 1.333rem; /* 21.28px */}
-
-small {font-size: 0.750rem; /* 12px */}
 
 :root[data-theme="light"] {
-  --text: #090a11;
+  --text-color: #090a11;
   --background: #f1f1f8;
   --primary: #262d73;
   --secondary: #7881dd;
   --accent: #202abc;
 }
-:root[data-theme="dark"] {
-  --text: #eeeff6;
-  --background: #07070e;
-  --primary: #8c93d9;
-  --secondary: #222a87;
-  --accent: #434edf;
+
+body {
+  font-family: "Inter";
+  font-weight: 400;
+}
+
+html {
+  font-size: 100%;
+} /* 16px */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 10px;
 }
