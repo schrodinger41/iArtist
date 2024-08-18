@@ -8,7 +8,6 @@
 
 .info-container,
 .login-form-container {
-  background-color: var(--background);
   height: 50%;
   border-radius: 8px;
   padding: 40px;
@@ -19,8 +18,13 @@
   justify-content: center;
 }
 
+.login-form-container {
+  background-color: var(--background);
+}
+
 .info-container {
-  background-color: blue;
+  background: url("../../images/infoBackground.svg") no-repeat center center;
+  background-size: cover;
   color: white;
   margin-right: 20px;
 }
