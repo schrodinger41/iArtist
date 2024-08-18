@@ -27,10 +27,10 @@ const RegisterPage = () => {
   return (
     <div className="register-page">
       <div className="info-container">
-        <h1 className="info-text">Welcome to Snapstudy!</h1>
+        <h1 className="info-text">Welcome to iArtist!</h1>
       </div>
       <div className="login-form-container">
-        <h1 className="app-logo">Snapstudy</h1>
+        <h1 className="app-logo">iArtist</h1>
         <form>
           <input
             type="email"

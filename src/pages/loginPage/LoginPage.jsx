@@ -27,10 +27,10 @@ const LoginPage = () => {
   return (
     <div className="register-page">
       <div className="info-container">
-        <h1 className="info-text">Welcome Back to Snapstudy!</h1>
+        <h1 className="info-text">Welcome Back to iArtist!</h1>
       </div>
       <div className="login-form-container">
-        <h1 className="app-logo">Snapstudy</h1>
+        <h1 className="app-logo">iArtist</h1>
         <form>
           <input
             type="email"
@@ -57,7 +57,7 @@ const LoginPage = () => {
           </button>
         </form>
         <div className="signup-text">
-          Don't have an account? <a href="/login">Sign Up</a>
+          Don't have an account? <a href="/register">Sign Up</a>
         </div>
       </div>
     </div>
