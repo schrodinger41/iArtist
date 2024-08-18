@@ -27,6 +27,18 @@
   background-size: cover;
   color: white;
   margin-right: 20px;
+  text-align: center; /* Center text */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
+  padding: 20px; /* Adjust padding as needed */
+}
+
+.info-logo {
+  width: 60%; /* Adjust size */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Space between logo and text */
 }
 
 .info-text {

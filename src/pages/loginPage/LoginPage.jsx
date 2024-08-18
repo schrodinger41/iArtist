@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import GoogleLogo from "../../images/googlelogo.png";
 import "./loginPage.css";
+import Icon from "../../images/icon.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -27,10 +28,11 @@ const LoginPage = () => {
   return (
     <div className="register-page">
       <div className="info-container">
+        <img src={Icon} alt="Logo" className="info-logo" />
         <h1 className="info-text">Welcome Back to iArtist!</h1>
       </div>
       <div className="login-form-container">
-        <h1 className="app-logo">iArtist</h1>
+        <h1 className="app-logo">Sign In!</h1>
         <form>
           <input
             type="email"
@@ -43,7 +45,7 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="button" onClick={signIn}>
-            Sign Up
+            Sign In
           </button>
 
           <p className="or-text">OR</p>
@@ -53,7 +55,7 @@ const LoginPage = () => {
             onClick={signInWithGoogle}
           >
             <img src={GoogleLogo} alt="Google logo" />
-            Log in with Google
+            Sign In with Google
           </button>
         </form>
         <div className="signup-text">
