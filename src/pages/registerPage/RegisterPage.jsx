@@ -15,7 +15,6 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
 
   const signIn = async () => {
     try {
@@ -26,7 +25,7 @@ const RegisterPage = () => {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
           firstName: fname,
-          lastName: lname,
+          photo: "",
         });
       }
       console.log("User Registered Successfully");
@@ -37,7 +36,22 @@ const RegisterPage = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+          fullName: user.displayName,
+          photo: user.photoURL,
+        });
+      }
+      console.log("User Registered Successfully");
+      window.location.href = "/home";
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const logout = async () => {
@@ -55,18 +69,12 @@ const RegisterPage = () => {
         <form>
           <input
             type="text"
-            placeholder="First Name"
+            placeholder="Full Name"
             onChange={(e) => setFname(e.target.value)}
             className="input"
             required
           />
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="input"
-            onChange={(e) => setLname(e.target.value)}
-            required
-          />
+
           <input
             type="email"
             placeholder="Email"
@@ -83,9 +91,6 @@ const RegisterPage = () => {
           />
           <button className="button" type="button" onClick={signIn}>
             Sign Up
-          </button>
-          <button className="button" type="button" onClick={logout}>
-            log Up
           </button>
 
           <p className="or-text">OR</p>

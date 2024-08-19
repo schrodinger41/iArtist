@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth, googleProvider } from "../../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import GoogleLogo from "../../images/googlelogo.png";
 import "./loginPage.css";
 import Icon from "../../images/icon.png";
@@ -19,7 +19,15 @@ const LoginPage = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      const user = auth.currentUser;
+      console.log(user);
+      console.log("User Logged In Successfully");
+      window.location.href = "/home";
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
