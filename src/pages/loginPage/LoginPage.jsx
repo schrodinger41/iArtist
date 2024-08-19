@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { auth, googleProvider } from "../../config/firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import GoogleLogo from "../../images/googlelogo.png";
 import "./loginPage.css";
 import Icon from "../../images/icon.png";
@@ -13,16 +9,17 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
+  const logIn = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("User Logged in Successfully");
+      window.location.href = "/home";
+    } catch (error) {}
   };
 
   const signInWithGoogle = async () => {
     await signInWithPopup(auth, googleProvider);
-  };
-
-  const logout = async () => {
-    await signOut(auth);
   };
 
   return (
@@ -37,21 +34,23 @@ const LoginPage = () => {
           <input
             type="email"
             placeholder="Email"
+            className="input"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
+            className="input"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="button" onClick={signIn}>
+          <button className="button" type="button" onClick={logIn}>
             Sign In
           </button>
 
           <p className="or-text">OR</p>
           <button
             type="button"
-            className="google-sign-in-button"
+            className="google-sign-in-button button"
             onClick={signInWithGoogle}
           >
             <img src={GoogleLogo} alt="Google logo" />
