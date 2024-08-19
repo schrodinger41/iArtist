@@ -9,10 +9,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* <Route index element={<Register />} /> */}
+          <Route index element={<HomePage />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
-          <Route path="home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </>

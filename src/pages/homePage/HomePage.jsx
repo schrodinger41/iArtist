@@ -1,20 +1,25 @@
-import React from "react";
-import { auth, googleProvider, db } from "../../config/firebase";
-import { signOut } from "firebase/auth";
+import React, { useEffect } from "react";
+import { auth } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
 import "./homepage.css";
-const logout = async () => {
-  try {
-    await signOut(auth);
-    window.location.href = "/login";
-  } catch (error) {
-    console.error("Error logging out:", error);
-  }
-};
+import Navbar from "../../components/navbar/Navbar";
+
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        navigate("/login"); 
+      }
+    });
+
+    return () => unsubscribe(); 
+  }, [navigate]);
   return (
-    <button className="button" type="button" onClick={logout}>
-      log out
-    </button>
+    <div>
+      <Navbar />
+    </div>
   );
 };
 

@@ -29,7 +29,7 @@ const RegisterPage = () => {
         });
       }
       console.log("User Registered Successfully");
-      window.location.href = "/home";
+      window.location.href = "/";
     } catch (error) {
       console.log(error.message);
     }
@@ -48,7 +48,7 @@ const RegisterPage = () => {
         });
       }
       console.log("User Registered Successfully");
-      window.location.href = "/home";
+      window.location.href = "/";
     } catch (error) {
       console.log(error.message);
     }

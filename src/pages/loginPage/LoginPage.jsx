@@ -14,7 +14,7 @@ const LoginPage = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("User Logged in Successfully");
-      window.location.href = "/home";
+      window.location.href = "/";
     } catch (error) {}
   };
 
@@ -24,7 +24,7 @@ const LoginPage = () => {
       const user = auth.currentUser;
       console.log(user);
       console.log("User Logged In Successfully");
-      window.location.href = "/home";
+      window.location.href = "/";
     } catch (error) {
       console.log(error.message);
     }
