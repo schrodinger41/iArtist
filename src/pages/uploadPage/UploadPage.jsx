@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import "./uploadPage.css";
 
 import Navbar from "../../components/navbar/Navbar";
-import "./profilepage.css";
+import UploadForm from "../../components/uploadForm/UploadForm";
 
-const ProfilePage = () => {
+const UploadPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,10 +19,11 @@ const ProfilePage = () => {
     return () => unsubscribe();
   }, [navigate]);
   return (
-    <div>
+    <div className="upload_page">
       <Navbar />
+      <UploadForm />
     </div>
   );
 };
 
-export default ProfilePage;
+export default UploadPage;

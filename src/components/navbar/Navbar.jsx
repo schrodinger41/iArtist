@@ -4,9 +4,14 @@ import { FaBars, FaXmark } from "react-icons/fa6";
 import { auth } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import Icon from "../../images/icon.png";
+import { FiPlusCircle } from "react-icons/fi";
+import { GoHome } from "react-icons/go";
+import { FaRegUserCircle } from "react-icons/fa";
+import UploadForm from "../uploadForm/UploadForm";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -32,17 +37,17 @@ const Navbar = () => {
         <ul className="links">
           <li>
             <a href="/" className="links_items">
-              Home
+              <GoHome />
             </a>
           </li>
           <li>
-            <a href="/upload" className="links_items">
-              Upload
-            </a>
+            <button className="links_items" onClick={() => setModalOpen(true)}>
+              <FiPlusCircle />
+            </button>
           </li>
           <li>
             <a href="/profile" className="links_items">
-              Profile
+              <FaRegUserCircle />
             </a>
           </li>
         </ul>
@@ -57,27 +62,41 @@ const Navbar = () => {
       </div>
 
       <div className={`dropdown_menu ${menuOpen ? "open" : ""}`}>
-        <li className="">
-          <a href="/" className="links_items">
+        <li>
+          <a href="/" className="links_items_drop">
             Home
           </a>
         </li>
-        <li className="">
-          <a href="/upload" className="links_items">
+        <li>
+          <button
+            className="links_items_drop"
+            onClick={() => setModalOpen(true)} // Open modal on click
+          >
             Upload
-          </a>
+          </button>
         </li>
-        <li className="">
-          <a href="/profile" className="links_items">
+        <li>
+          <a href="/profile" className="links_items_drop">
             Profile
           </a>
         </li>
-        <li className="">
+        <li>
           <button className="logout_btn" type="button" onClick={handleLogout}>
             Log Out
           </button>
         </li>
       </div>
+
+      {modalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setModalOpen(false)}>
+              &times;
+            </button>
+            <UploadForm />
+          </div>
+        </div>
+      )}
     </header>
   );
 };
