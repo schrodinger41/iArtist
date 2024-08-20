@@ -73,7 +73,7 @@ const UploadForm = () => {
       setCaption("");
       setImagePreview(null); // Clear the preview
       setLoading(false);
-      alert("Image uploaded successfully!");
+      window.location.href = "/";
     } catch (err) {
       setError("Failed to upload image.");
       setLoading(false);

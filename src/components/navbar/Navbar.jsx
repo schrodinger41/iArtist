@@ -41,9 +41,9 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <button className="links_items" onClick={() => setModalOpen(true)}>
+            <a className="links_items" onClick={() => setModalOpen(true)}>
               <FiPlusCircle />
-            </button>
+            </a>
           </li>
           <li>
             <a href="/profile" className="links_items">
@@ -68,12 +68,9 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <button
-            className="links_items_drop"
-            onClick={() => setModalOpen(true)} // Open modal on click
-          >
+          <a className="links_items_drop" onClick={() => setModalOpen(true)}>
             Upload
-          </button>
+          </a>
         </li>
         <li>
           <a href="/profile" className="links_items_drop">
