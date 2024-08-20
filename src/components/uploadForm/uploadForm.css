@@ -5,12 +5,41 @@
   background-color: var(--background);
   border-radius: 8px;
   overflow: hidden;
+  min-height: 200px;
 }
 
-.upload-left,
-.upload-right {
+.upload-left {
   flex: 1;
   padding: 20px;
+}
+
+.upload-right {
+  flex: 1;
+  padding-top: 0px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  padding-right: 20px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.plus-icon {
+  font-size: 4rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.upload-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  border-radius: 8px;
 }
 
 .select-image-btn {
@@ -25,16 +54,22 @@
   cursor: pointer;
   text-align: center;
 }
+/* Ensure the image preview is clickable */
+.image-preview {
+  cursor: pointer;
+  max-width: 100%;
+}
 
 .image-preview img {
   max-width: 100%;
+  height: auto;
   border-radius: 8px;
 }
 
 .upload-right {
   display: flex;
   flex-direction: column;
-  position: relative; /* Necessary for positioning the upload button */
+  position: relative;
 }
 
 .user-and-upload {
@@ -46,7 +81,7 @@
 .user-info {
   display: flex;
   align-items: center;
-  flex: 1; /* Ensures the user info section takes up available space */
+  flex: 1;
 }
 
 .user-photo {
@@ -57,7 +92,7 @@
 }
 
 .user-details {
-  flex: 1; /* Ensures the user details section takes up available space */
+  flex: 1;
 }
 
 .user-details p {
@@ -66,7 +101,7 @@
 }
 
 .upload-btn {
-  margin-left: auto; /* Pushes the button to the right */
+  margin-left: auto;
   padding: 10px 20px;
   background-color: var(--primary-color);
   color: white;
@@ -82,7 +117,7 @@
 
 .upload-right textarea {
   width: 100%;
-  height: 80px;
+  height: 100%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid var(--container-color);

@@ -3,6 +3,7 @@ import { storage, db, auth } from "../../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { FaImages } from "react-icons/fa6";
 import "./uploadForm.css";
 
 const UploadForm = () => {
@@ -85,9 +86,18 @@ const UploadForm = () => {
     <div className="upload-container">
       <div className="upload-left">
         {!imagePreview ? (
-          <button className="select-image-btn">
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </button>
+          <div className="icon-container">
+            <input
+              type="file"
+              accept="image/*"
+              id="file-input"
+              style={{ display: "none" }} // Hide the file input
+              onChange={handleImageChange}
+            />
+            <label htmlFor="file-input">
+              <FaImages className="plus-icon" />
+            </label>
+          </div>
         ) : (
           <div className="image-preview">
             <img src={imagePreview} alt="Selected Image" />
@@ -100,13 +110,12 @@ const UploadForm = () => {
           {userData ? (
             <div className="user-info">
               <img
-                src={userData.photo || "https://via.placeholder.com/150"} // Use a test URL if needed
+                src={userData.photo || "https://via.placeholder.com/150"}
                 alt="User Profile"
                 className="user-photo"
               />
               <div className="user-details">
                 <p>{userData.fullName || "Anonymous"}</p>{" "}
-                {/* Fallback if fullName is not available */}
               </div>
             </div>
           ) : (
