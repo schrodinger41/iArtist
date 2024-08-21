@@ -1,7 +1,11 @@
 .links_items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-color);
   font-size: 4rem;
   font-weight: var(--font-weight-800);
+  height: 100%;
 }
 
 .links_items_drop {
@@ -26,16 +30,14 @@
 }
 
 header {
-  position: fixed; /* Change from relative to fixed */
-  top: 0; /* Ensure it sticks to the top */
+  position: fixed;
+  top: 0;
   left: 0;
-  width: 100%; /* Full width */
-  z-index: 10000; /* Keep it on top of other elements */
-  background-color: var(
-    --background
-  ); /* Ensure background color covers content */
-  padding: 0 2rem; /* Keep padding consistent */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+  width: 100%;
+  z-index: 10000;
+  background-color: var(--background);
+  padding: 0 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
@@ -50,12 +52,12 @@ header {
 
 .navbar .logo .links_items {
   font-size: var(--h2-font-size);
-  align-items: center; /* Center the logo vertically */
+  align-items: center;
 }
 
 .navbar .links {
   display: flex;
-  align-items: center; /* Center the links vertically */
+  align-items: center;
   gap: 9rem;
 }
 
@@ -151,7 +153,7 @@ header {
   display: flex;
   max-width: 100%;
   margin: 0 auto;
-  background-color: transparent; /* Remove white background */
+  background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
 }

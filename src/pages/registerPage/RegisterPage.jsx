@@ -24,7 +24,7 @@ const RegisterPage = () => {
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
-          firstName: fname,
+          fullName: fname,
           photo: "",
         });
       }
@@ -52,10 +52,6 @@ const RegisterPage = () => {
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  const logout = async () => {
-    await signOut(auth);
   };
 
   return (
