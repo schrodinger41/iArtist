@@ -74,23 +74,27 @@ const HomePage = () => {
     <div>
       <Navbar />
       <div className="content">
-        {loading ? (
-          <p>Loading posts...</p>
-        ) : posts.length > 0 ? (
-          posts.map((post) => (
-            <Post
-              key={post.id}
-              imageUrl={post.imageUrl}
-              caption={post.caption || ""}
-              userName={users[post.uid]?.fullName || "Anonymous"}
-              userPhoto={
-                users[post.uid]?.photo || "https://via.placeholder.com/150"
-              }
-            />
-          ))
-        ) : (
-          <p>No posts to display.</p>
-        )}
+        <div className="post-contents">
+          {loading ? (
+            <p>Loading posts...</p>
+          ) : posts.length > 0 ? (
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                postId={post.id}
+                imageUrl={post.imageUrl}
+                caption={post.caption || ""}
+                userName={users[post.uid]?.fullName || "Anonymous"}
+                userPhoto={
+                  users[post.uid]?.photo || "https://via.placeholder.com/150"
+                }
+                initialLikes={post.likes || []} // Pass the likes array
+              />
+            ))
+          ) : (
+            <p>No posts to display.</p>
+          )}
+        </div>
       </div>
     </div>
   );
