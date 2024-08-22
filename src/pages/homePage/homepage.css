@@ -8,7 +8,7 @@
   max-width: 900px;
   background-color: var(--background);
   width: 100%;
-  border-left: 2px solid var(--container-color); /* Add a left border */
-  border-right: 2px solid var(--container-color); /* Add a right border */
+  border-left: 2px solid var(--border-color); /* Add a left border */
+  border-right: 2px solid var(--border-color); /* Add a right border */
   padding: 20px; /* Optional: Add padding for better spacing inside the content */
 }

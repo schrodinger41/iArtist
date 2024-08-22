@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./post.css";
 import { FaHeart, FaComment, FaShare } from "react-icons/fa";
 import { auth, db } from "../../config/firebase";
-import {
-  doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
-} from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 const Post = ({
   postId,
@@ -62,14 +56,15 @@ const Post = ({
       </div>
       <div className="post-footer">
         <div className="footer-icon" onClick={handleLike}>
-          <FaHeart color={hasLiked ? "red" : "var(--text-color)"} />
-          <span className="like">{likes.length}</span>
+          <FaHeart
+            color={hasLiked ? "var(--accent-color)" : "var(--text-color)"}
+          />
+          <span className={`like ${hasLiked ? "liked" : ""}`}>
+            {likes.length}
+          </span>
         </div>
         <div className="footer-icon">
           <FaComment />
-        </div>
-        <div className="footer-icon">
-          <FaShare />
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@
   --primary-color: #8c93d9;
   --secondary-color: #222a87;
   --accent-color: #434edf;
+  --border-color: hsl(0, 1%, 40%);
 
   /*==========TYPOGRAPHY==========*/
   --body-font: "Inter", sans-serif;
