@@ -19,7 +19,6 @@ const UploadForm = () => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
       if (!user) {
-        navigate("/login");
         return;
       }
       const userRef = doc(db, "Users", user.uid);
@@ -54,7 +53,6 @@ const UploadForm = () => {
     try {
       const user = auth.currentUser;
       if (!user) {
-        navigate("/login");
         return;
       }
 

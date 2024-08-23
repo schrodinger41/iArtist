@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./navbar.css";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { auth } from "../../config/firebase";
@@ -7,11 +7,24 @@ import Icon from "../../images/icon.png";
 import { FiPlusCircle } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
 import { FaRegUserCircle } from "react-icons/fa";
+import Cookies from "universal-cookie";
 import UploadForm from "../uploadForm/UploadForm";
+import { useNavigate } from "react-router-dom";
+
+const cookies = new Cookies();
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(
+    cookies.get("auth-token") ? true : false
+  );
+  const navigate = useNavigate(); // For navigation after logout
+
+  useEffect(() => {
+    // Update authentication state based on cookie changes
+    setIsAuth(cookies.get("auth-token") ? true : false);
+  }, []);
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -20,7 +33,9 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      window.location.href = "/login";
+      cookies.remove("auth-token");
+      setIsAuth(false);
+      window.location.href = "/";
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -77,6 +92,7 @@ const Navbar = () => {
             Profile
           </a>
         </li>
+
         <li>
           <button className="logout_btn" type="button" onClick={handleLogout}>
             Log Out

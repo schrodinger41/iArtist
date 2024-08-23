@@ -9,19 +9,20 @@ import "./homepage.css";
 const HomePage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState({}); // Store user data here
-  const [loading, setLoading] = useState(true); // Loading state
+  const [users, setUsers] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if user is logged in using localStorage
+
     const fetchPostsAndUsers = async () => {
       try {
-        // Fetch all posts
         const postsRef = collection(db, "posts");
         const q = query(postsRef);
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-          console.log("No matching documents."); // Debugging: No posts found
+          console.log("No matching documents.");
           setPosts([]);
           setLoading(false);
           return;
@@ -31,13 +32,11 @@ const HomePage = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("Posts Data:", postsData); // Debugging: Log posts data
+        console.log("Posts Data:", postsData);
 
-        // Collect unique UIDs from posts
         const uids = [...new Set(postsData.map((post) => post.uid))];
-        console.log("User UIDs:", uids); // Debugging: Log UIDs
+        console.log("User UIDs:", uids);
 
-        // Fetch user data for all UIDs
         const usersData = {};
         const usersPromises = uids.map(async (uid) => {
           const userRef = doc(db, "Users", uid);
@@ -49,25 +48,15 @@ const HomePage = () => {
 
         await Promise.all(usersPromises);
         setUsers(usersData);
-
-        // Set posts data
         setPosts(postsData);
       } catch (error) {
         console.error("Error fetching posts and users:", error);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchPostsAndUsers();
-
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        navigate("/login");
-      }
-    });
-
-    return () => unsubscribe();
   }, [navigate]);
 
   return (
@@ -88,7 +77,7 @@ const HomePage = () => {
                 userPhoto={
                   users[post.uid]?.photo || "https://via.placeholder.com/150"
                 }
-                initialLikes={post.likes || []} // Pass the likes array
+                initialLikes={post.likes || []}
               />
             ))
           ) : (
