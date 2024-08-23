@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import Navbar from "../../components/navbar/Navbar";
-import "./profilePage.css";
 
 const ProfilePage = () => {
   const { userId } = useParams();
