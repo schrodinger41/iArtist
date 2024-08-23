@@ -8,6 +8,11 @@ import {
   arrayUnion,
   arrayRemove,
   deleteDoc,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
@@ -27,6 +32,11 @@ const Post = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [caption, setCaption] = useState(initialCaption);
+  const [commentsVisible, setCommentsVisible] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [commentCount, setCommentCount] = useState(0);
+
   const user = auth.currentUser;
   const navigate = useNavigate();
 
@@ -34,7 +44,24 @@ const Post = ({
     if (user && likes.includes(user.uid)) {
       setHasLiked(true);
     }
-  }, [likes, user, postOwnerUid]);
+  }, [likes, user]);
+
+  // Fetch comments from Firestore
+  useEffect(() => {
+    const commentsRef = collection(db, "posts", postId, "comments");
+    const q = query(commentsRef, orderBy("createdAt", "asc"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const commentsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComments(commentsData);
+      setCommentCount(commentsData.length); // Set the comment count
+    });
+
+    return () => unsubscribe();
+  }, [postId]);
 
   const handleLike = async () => {
     if (!user) return;
@@ -90,9 +117,43 @@ const Post = ({
     navigate(`/profile/${postOwnerUid}`);
   };
 
+  const handleCommentToggle = () => {
+    setCommentsVisible(!commentsVisible);
+  };
+
+  const handleNewCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleNewCommentSubmit = async () => {
+    if (!newComment.trim()) return;
+
+    const commentsRef = collection(db, "posts", postId, "comments");
+
+    await addDoc(commentsRef, {
+      commentText: newComment,
+      userId: user.uid,
+      userName: user.displayName || "Anonymous",
+      userPhoto: user.photoURL || "",
+      createdAt: new Date(),
+    });
+
+    setNewComment("");
+  };
+
   const formattedDate = createdAt
     ? format(new Date(createdAt.toDate()), "MMM d, yyyy")
     : "Unknown Date";
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setCommentsVisible(false); // Close the modal
+    }
+  };
+
+  const handleCloseModal = () => {
+    setCommentsVisible(false);
+  };
 
   return (
     <div className="post-container">
@@ -142,10 +203,53 @@ const Post = ({
             {likes.length}
           </span>
         </div>
-        <div className="footer-icon comment">
+        <div className="footer-icon" onClick={handleCommentToggle}>
           <FaComment />
+          <span className="like">{commentCount}</span>
         </div>
       </div>
+
+      {commentsVisible && (
+        <div className="modal-overlay" onClick={handleOverlayClick}>
+          <div className="modal-content">
+            <button className="close-modal-button" onClick={handleCloseModal}>
+              &times;
+            </button>
+            <div className="comments-section">
+              {comments.length > 0 ? (
+                <div className="comments-container">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="comment">
+                      <img
+                        src={comment.userPhoto}
+                        alt={comment.userName}
+                        className="comment-user-photo"
+                      />
+                      <div className="comment-content">
+                        <p className="comment-user-name">{comment.userName}</p>
+                        <p className="comment-text">{comment.commentText}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No comments yet.</p>
+              )}
+            </div>
+            {user && (
+              <div className="new-comment">
+                <textarea
+                  value={newComment}
+                  onChange={handleNewCommentChange}
+                  rows="2"
+                  placeholder="Add a comment..."
+                />
+                <button onClick={handleNewCommentSubmit}>Post</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
