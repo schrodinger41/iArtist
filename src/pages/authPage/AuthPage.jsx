@@ -77,7 +77,7 @@ const AuthPage = () => {
           });
 
           cookies.set("auth-token", user.refreshToken);
-          window.location.assign("/"); // Redirect to home page
+          window.location.assign("/"); 
         }
       } catch (error) {
         setError(getErrorMessage(error.code));
@@ -92,7 +92,7 @@ const AuthPage = () => {
         const user = userCredential.user;
 
         cookies.set("auth-token", user.refreshToken);
-        window.location.assign("/"); // Redirect to home page
+        window.location.assign("/"); 
       } catch (error) {
         setError(getErrorMessage(error.code));
       }
@@ -113,7 +113,7 @@ const AuthPage = () => {
         photo: user.photoURL || "",
       });
 
-      window.location.assign("/"); // Redirect to home page
+      window.location.assign("/"); 
     } catch (error) {
       setError(getErrorMessage(error.code));
     }

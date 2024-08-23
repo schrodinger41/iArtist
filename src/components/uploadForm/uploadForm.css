@@ -1,6 +1,7 @@
 .upload-container {
   display: flex;
-  max-width: 800px;
+  flex-direction: column;
+  max-width: 600px;
   margin: 2rem auto;
   background-color: var(--background);
   border-radius: 8px;
@@ -8,17 +9,9 @@
   min-height: 200px;
 }
 
-.upload-left {
+.upload-info {
   flex: 1;
   padding: 20px;
-}
-
-.upload-right {
-  flex: 1;
-  padding-top: 0px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  padding-right: 20px;
 }
 
 .icon-container {
@@ -34,12 +27,15 @@
   cursor: pointer;
 }
 
-.upload-left {
+.upload-img {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
   border-radius: 8px;
+  margin: 20px;
+  height: 30rem;
+  overflow: hidden;
 }
 
 .select-image-btn {
@@ -54,19 +50,23 @@
   cursor: pointer;
   text-align: center;
 }
-/* Ensure the image preview is clickable */
+
 .image-preview {
-  cursor: pointer;
-  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .image-preview img {
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
+  object-fit: cover;
   border-radius: 8px;
 }
 
-.upload-right {
+.upload-info {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -115,9 +115,8 @@
   cursor: not-allowed;
 }
 
-.upload-right textarea {
+.upload-info textarea {
   width: 100%;
-  height: 100%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid var(--container-color);

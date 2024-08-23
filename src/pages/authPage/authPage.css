@@ -129,8 +129,9 @@
 
 .error-message {
   color: var(--text-color);
-  font-size: var(--h3-font-size);
+  font-size: var(--normal-font-size);
   padding: 0rem 0rem 1rem 0rem;
   font-weight: var(--font-weight-800);
   text-transform: uppercase;
+  color: #ff3333;
 }

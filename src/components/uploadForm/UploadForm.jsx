@@ -24,10 +24,10 @@ const UploadForm = () => {
       const userRef = doc(db, "Users", user.uid);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
-        console.log("User data:", userSnap.data()); // Debugging line
+        console.log("User data:", userSnap.data());
         setUserData(userSnap.data());
       } else {
-        console.log("No user data found."); // Debugging line
+        console.log("No user data found.");
       }
     };
     fetchUserData();
@@ -37,7 +37,7 @@ const UploadForm = () => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Generate preview URL
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -70,7 +70,7 @@ const UploadForm = () => {
 
       setImage(null);
       setCaption("");
-      setImagePreview(null); // Clear the preview
+      setImagePreview(null);
       setLoading(false);
       window.location.href = "/";
     } catch (err) {
@@ -82,28 +82,7 @@ const UploadForm = () => {
 
   return (
     <div className="upload-container">
-      <div className="upload-left">
-        {!imagePreview ? (
-          <div className="icon-container">
-            <input
-              type="file"
-              accept="image/*"
-              id="file-input"
-              style={{ display: "none" }} // Hide the file input
-              onChange={handleImageChange}
-            />
-            <label htmlFor="file-input">
-              <FaImages className="plus-icon" />
-            </label>
-          </div>
-        ) : (
-          <div className="image-preview">
-            <img src={imagePreview} alt="Selected Image" />
-          </div>
-        )}
-      </div>
-
-      <div className="upload-right">
+      <div className="upload-info">
         <div className="user-and-upload">
           {userData ? (
             <div className="user-info">
@@ -135,6 +114,27 @@ const UploadForm = () => {
           onChange={(e) => setCaption(e.target.value)}
         ></textarea>
         {error && <p className="error">{error}</p>}
+      </div>
+
+      <div className="upload-img">
+        {!imagePreview ? (
+          <div className="icon-container">
+            <input
+              type="file"
+              accept="image/*"
+              id="file-input"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <label htmlFor="file-input">
+              <FaImages className="plus-icon" />
+            </label>
+          </div>
+        ) : (
+          <div className="image-preview">
+            <img src={imagePreview} alt="Selected Image" />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,39 +1,49 @@
 import React, { useState, useEffect } from "react";
 import "./post.css";
-import { FaHeart, FaComment, FaShare } from "react-icons/fa";
+import { FaHeart, FaComment, FaEllipsisV } from "react-icons/fa";
 import { auth, db } from "../../config/firebase";
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  deleteDoc,
+} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({
   postId,
   imageUrl,
   userName,
   userPhoto,
-  caption,
+  caption: initialCaption,
   initialLikes,
+  postOwnerUid,
 }) => {
   const [likes, setLikes] = useState(initialLikes);
   const [hasLiked, setHasLiked] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [caption, setCaption] = useState(initialCaption);
   const user = auth.currentUser;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user && likes.includes(user.uid)) {
       setHasLiked(true);
     }
-  }, [likes, user]);
+  }, [likes, user, postOwnerUid]);
 
   const handleLike = async () => {
     if (!user) return;
 
     const postRef = doc(db, "posts", postId);
     if (hasLiked) {
-      // Unlike the post
       await updateDoc(postRef, {
         likes: arrayRemove(user.uid),
       });
       setLikes(likes.filter((uid) => uid !== user.uid));
     } else {
-      // Like the post
       await updateDoc(postRef, {
         likes: arrayUnion(user.uid),
       });
@@ -42,14 +52,67 @@ const Post = ({
     setHasLiked(!hasLiked);
   };
 
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCaptionChange = (e) => {
+    setCaption(e.target.value);
+  };
+
+  const handleSave = async () => {
+    try {
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, { caption });
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating post caption:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const postRef = doc(db, "posts", postId);
+      await deleteDoc(postRef);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
   return (
     <div className="post-container">
       <div className="post-header">
         <img src={userPhoto} alt="User Profile" className="user-photo" />
         <p className="user-name">{userName}</p>
+        {user && user.uid === postOwnerUid && (
+          <div className="post-menu">
+            <FaEllipsisV
+              onClick={handleMenuToggle}
+              className="more-options-icon"
+            />
+            {menuOpen && (
+              <div className="menu-options">
+                <button onClick={handleEdit}>Edit</button>
+                <button onClick={handleDelete}>Delete</button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className="post-caption">
-        <p>{caption}</p>
+        {isEditing ? (
+          <div>
+            <textarea value={caption} onChange={handleCaptionChange} rows="3" />
+            <button onClick={handleSave}>Save</button>
+          </div>
+        ) : (
+          <p>{caption}</p>
+        )}
       </div>
       <div className="post-image">
         <img src={imageUrl} alt="Uploaded content" />

@@ -13,8 +13,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in using localStorage
-
     const fetchPostsAndUsers = async () => {
       try {
         const postsRef = collection(db, "posts");
@@ -78,6 +76,7 @@ const HomePage = () => {
                   users[post.uid]?.photo || "https://via.placeholder.com/150"
                 }
                 initialLikes={post.likes || []}
+                postOwnerUid={post.uid}
               />
             ))
           ) : (

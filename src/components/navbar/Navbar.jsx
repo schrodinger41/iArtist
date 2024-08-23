@@ -19,10 +19,9 @@ const Navbar = () => {
   const [isAuth, setIsAuth] = useState(
     cookies.get("auth-token") ? true : false
   );
-  const navigate = useNavigate(); // For navigation after logout
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    // Update authentication state based on cookie changes
     setIsAuth(cookies.get("auth-token") ? true : false);
   }, []);
 

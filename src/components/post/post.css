@@ -39,12 +39,14 @@
   padding: 0 16px 1px 80px;
   color: var(--text-color);
   font-size: var(--h3-font-size);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .post-image {
   width: 100%;
-  padding: 16px 16px 16px 80px; /* Add padding around the image */
-  box-sizing: border-box; /* Ensure padding does not affect overall width */
+  padding: 16px 16px 16px 80px;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +58,7 @@
   max-width: 100%;
   display: block;
   object-fit: cover;
-  border-radius: 8px; /* Optional: Add rounded corners to the image */
+  border-radius: 8px;
 }
 
 .post-footer {
@@ -69,4 +71,138 @@
   align-items: center;
   font-size: 16px;
   color: var(--text-color);
+}
+.post-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  padding-bottom: 16px;
+  position: relative; /* Ensure the container is positioned relative */
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  position: relative; /* Ensure the header is positioned relative */
+}
+
+.user-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.post-caption {
+  padding: 0 16px;
+  color: var(--text-color);
+  font-size: var(--h3-font-size);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.post-image {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.footer-icon {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.more-options-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.post-menu {
+  position: absolute;
+  right: 16px; /* Adjust this value to move the menu to the right corner */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical centering */
+  color: var(--text-color);
+}
+
+.menu-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--background);
+  border: 2px solid var(--container-color);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.menu-options button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-options button:hover {
+  background-color: var(--accent-color);
+}
+
+.post-caption textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  resize: vertical;
+  background-color: var(--background);
+  color: var(--text-color);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  resize: none;
+}
+
+.post-caption button {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.post-caption button:hover {
+  background-color: var(--accent-color-dark);
 }
