@@ -45,7 +45,6 @@ const ProfilePage = () => {
           />
           <h1>{user.fullName || "Unknown User"}</h1>
           <p>{user.email || "No email provided"}</p>
-          {/* Add more user details as needed */}
         </>
       ) : (
         <p>No user data available</p>

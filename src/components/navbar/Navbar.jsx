@@ -19,20 +19,18 @@ const Navbar = () => {
   const [isAuth, setIsAuth] = useState(
     cookies.get("auth-token") ? true : false
   );
-  const [userUid, setUserUid] = useState(null); // New state to hold user UID
+  const [userUid, setUserUid] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is authenticated
     setIsAuth(cookies.get("auth-token") ? true : false);
 
-    // Set user UID if authenticated
     const currentUser = auth.currentUser;
     if (currentUser) {
       setUserUid(currentUser.uid);
-      console.log("User UID:", currentUser.uid); // Debugging line
+      console.log("User UID:", currentUser.uid);
     } else {
-      console.log("No current user"); // Debugging line
+      console.log("No current user");
     }
   }, [isAuth]);
 
@@ -53,10 +51,10 @@ const Navbar = () => {
 
   const goToProfile = () => {
     if (userUid) {
-      console.log("Navigating to profile:", `/profile/${userUid}`); // Debugging line
-      navigate(`/profile/${userUid}`); // Navigate to the profile page of the logged-in user
+      console.log("Navigating to profile:", `/profile/${userUid}`);
+      navigate(`/profile/${userUid}`);
     } else {
-      console.error("User UID is not set"); // Debugging line
+      console.error("User UID is not set");
     }
   };
 

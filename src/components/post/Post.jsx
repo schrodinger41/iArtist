@@ -10,7 +10,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns"; // Import date-fns for formatting dates
+import { format } from "date-fns";
 
 const Post = ({
   postId,
