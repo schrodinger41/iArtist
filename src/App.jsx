@@ -26,7 +26,7 @@ function App() {
           element={isAuth ? <HomePage /> : <AuthPage setIsAuth={setIsAuth} />}
         />
         <Route
-          path="/profile"
+          path="/profile/:userId"
           element={
             isAuth ? <ProfilePage /> : <AuthPage setIsAuth={setIsAuth} />
           }

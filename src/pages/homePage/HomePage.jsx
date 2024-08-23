@@ -58,7 +58,7 @@ const HomePage = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <div className="home">
       <Navbar />
       <div className="content">
         <div className="post-contents">
@@ -77,6 +77,7 @@ const HomePage = () => {
                 }
                 initialLikes={post.likes || []}
                 postOwnerUid={post.uid}
+                createdAt={post.createdAt}
               />
             ))
           ) : (

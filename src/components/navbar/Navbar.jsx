@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./navbar.css";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import Icon from "../../images/icon.png";
 import { FiPlusCircle } from "react-icons/fi";
@@ -10,6 +9,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import Cookies from "universal-cookie";
 import UploadForm from "../uploadForm/UploadForm";
 import { useNavigate } from "react-router-dom";
+import "./navbar.css";
 
 const cookies = new Cookies();
 
@@ -19,11 +19,22 @@ const Navbar = () => {
   const [isAuth, setIsAuth] = useState(
     cookies.get("auth-token") ? true : false
   );
-  const navigate = useNavigate(); 
+  const [userUid, setUserUid] = useState(null); // New state to hold user UID
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if the user is authenticated
     setIsAuth(cookies.get("auth-token") ? true : false);
-  }, []);
+
+    // Set user UID if authenticated
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setUserUid(currentUser.uid);
+      console.log("User UID:", currentUser.uid); // Debugging line
+    } else {
+      console.log("No current user"); // Debugging line
+    }
+  }, [isAuth]);
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -37,6 +48,15 @@ const Navbar = () => {
       window.location.href = "/";
     } catch (error) {
       console.error("Error logging out:", error);
+    }
+  };
+
+  const goToProfile = () => {
+    if (userUid) {
+      console.log("Navigating to profile:", `/profile/${userUid}`); // Debugging line
+      navigate(`/profile/${userUid}`); // Navigate to the profile page of the logged-in user
+    } else {
+      console.error("User UID is not set"); // Debugging line
     }
   };
 
@@ -60,7 +80,7 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/profile" className="links_items">
+            <a className="links_items" onClick={goToProfile}>
               <FaRegUserCircle />
             </a>
           </li>
@@ -87,7 +107,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="/profile" className="links_items_drop">
+          <a className="links_items_drop" onClick={goToProfile}>
             Profile
           </a>
         </li>

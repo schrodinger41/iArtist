@@ -76,8 +76,8 @@ const AuthPage = () => {
             photo: user.photoURL || "",
           });
 
-          cookies.set("auth-token", user.refreshToken);
-          window.location.assign("/"); 
+          cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
+          window.location.assign("/"); // Replace with navigate("/") if using React Router
         }
       } catch (error) {
         setError(getErrorMessage(error.code));
@@ -91,8 +91,8 @@ const AuthPage = () => {
         );
         const user = userCredential.user;
 
-        cookies.set("auth-token", user.refreshToken);
-        window.location.assign("/"); 
+        cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
+        window.location.assign("/"); // Replace with navigate("/") if using React Router
       } catch (error) {
         setError(getErrorMessage(error.code));
       }
@@ -104,7 +104,7 @@ const AuthPage = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      cookies.set("auth-token", user.refreshToken);
+      cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
 
       const userRef = doc(db, "Users", user.uid);
       await setDoc(userRef, {
@@ -113,7 +113,7 @@ const AuthPage = () => {
         photo: user.photoURL || "",
       });
 
-      window.location.assign("/"); 
+      window.location.assign("/"); // Replace with navigate("/") if using React Router
     } catch (error) {
       setError(getErrorMessage(error.code));
     }

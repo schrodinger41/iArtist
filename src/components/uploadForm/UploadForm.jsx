@@ -65,7 +65,7 @@ const UploadForm = () => {
         uid: user.uid,
         imageUrl: imageUrl,
         caption: caption,
-        createdAt: new Date(),
+        createdAt: new Date(), // Saves the current timestamp
       });
 
       setImage(null);

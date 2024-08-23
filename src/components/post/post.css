@@ -30,8 +30,10 @@
 }
 
 .user-name {
-  font-size: 16px;
+  font-size: var(--normal-font-size);
   font-weight: bold;
+  text-transform: capitalize;
+  padding-right: 2rem;
   color: var(--text-color);
 }
 
@@ -138,6 +140,7 @@
   align-items: center;
   font-size: 16px;
   color: var(--text-color);
+  cursor: pointer;
 }
 
 .more-options-icon {
@@ -162,6 +165,7 @@
   border: 2px solid var(--container-color);
   border-radius: 5px;
   z-index: 1;
+  width: 100px;
 }
 
 .menu-options button {
@@ -205,4 +209,9 @@
 
 .post-caption button:hover {
   background-color: var(--accent-color-dark);
+}
+
+.post-date {
+  color: var(--text-color);
+  font-size: var(--normal-font-size);
 }

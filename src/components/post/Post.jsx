@@ -10,6 +10,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns"; // Import date-fns for formatting dates
 
 const Post = ({
   postId,
@@ -19,6 +20,7 @@ const Post = ({
   caption: initialCaption,
   initialLikes,
   postOwnerUid,
+  createdAt,
 }) => {
   const [likes, setLikes] = useState(initialLikes);
   const [hasLiked, setHasLiked] = useState(false);
@@ -84,25 +86,39 @@ const Post = ({
     }
   };
 
+  const handleViewProfile = () => {
+    navigate(`/profile/${postOwnerUid}`);
+  };
+
+  const formattedDate = createdAt
+    ? format(new Date(createdAt.toDate()), "MMM d, yyyy")
+    : "Unknown Date";
+
   return (
     <div className="post-container">
       <div className="post-header">
         <img src={userPhoto} alt="User Profile" className="user-photo" />
-        <p className="user-name">{userName}</p>
-        {user && user.uid === postOwnerUid && (
-          <div className="post-menu">
-            <FaEllipsisV
-              onClick={handleMenuToggle}
-              className="more-options-icon"
-            />
-            {menuOpen && (
-              <div className="menu-options">
-                <button onClick={handleEdit}>Edit</button>
-                <button onClick={handleDelete}>Delete</button>
-              </div>
-            )}
-          </div>
-        )}
+        <div className="user-info">
+          <p className="user-name">{userName}</p>
+          <p className="post-date">{formattedDate}</p>{" "}
+        </div>
+        <div className="post-menu">
+          <FaEllipsisV
+            onClick={handleMenuToggle}
+            className="more-options-icon"
+          />
+          {menuOpen && (
+            <div className="menu-options">
+              <button onClick={handleViewProfile}>View Profile</button>
+              {user && user.uid === postOwnerUid && (
+                <>
+                  <button onClick={handleEdit}>Edit</button>
+                  <button onClick={handleDelete}>Delete</button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="post-caption">
         {isEditing ? (
@@ -126,7 +142,7 @@ const Post = ({
             {likes.length}
           </span>
         </div>
-        <div className="footer-icon">
+        <div className="footer-icon comment">
           <FaComment />
         </div>
       </div>
