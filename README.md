@@ -30,7 +30,7 @@ This is a post application built with React, Firebase, and Firestore. It allows 
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   npm install firebase
    
 3. **Firebase Setup:**
 - Create a Firebase project at Firebase Console.
