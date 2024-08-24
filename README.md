@@ -25,8 +25,8 @@ This is a post application built with React, Firebase, and Firestore. It allows 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/social-media-post-app.git
-   cd social-media-post-app
+   git clone https://github.com/schrodinger41/iArtist
+   cd iArtist
 
 2. **Install dependencies:**
    ```bash
