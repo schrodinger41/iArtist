@@ -42,6 +42,10 @@ body {
   font-weight: 400;
 }
 
+p {
+  color: var(--text-color);
+}
+
 html {
   font-size: 100%;
 } /* 16px */

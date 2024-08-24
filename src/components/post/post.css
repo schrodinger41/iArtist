@@ -207,10 +207,6 @@
   cursor: pointer;
 }
 
-.post-caption button:hover {
-  background-color: var(--accent-color-dark);
-}
-
 .post-date {
   color: var(--text-color);
   font-size: var(--normal-font-size);
@@ -277,15 +273,14 @@
   cursor: pointer;
 }
 
-.new-comment button:hover {
-  background-color: var(--accent-hover-color);
-}
-
 /* Individual Comment */
 .comment {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .comment-user-photo {
@@ -298,6 +293,8 @@
 .comment-content {
   background-color: var(--container-color);
   padding: 8px;
+  width: 100%;
+  max-width: 485px;
   border-radius: 8px;
   color: var(--text-color);
   flex: 1;
@@ -314,6 +311,8 @@
 
 .comment-text {
   font-size: var(--h3-font-size);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Close Modal Button */
@@ -330,4 +329,73 @@
 
 .close-modal-button:hover {
   color: var(--accent-color);
+}
+/* Comment Menu */
+.comment-menu {
+  position: absolute;
+  top: 10px; /* Adjusted to place it at the top */
+  right: 10px; /* Positioned at the right */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.comment-menu-icon {
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.comment-menu-options {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.comment-menu-options button {
+  padding: 5px 10px;
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Adjusted comment container to accommodate the positioned menu */
+.comment {
+  position: relative; /* Important: Enables absolute positioning of the menu */
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.comment-content {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.comment-user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.edit-box {
+  resize: none;
+  background: var(--container-color);
+  color: var(--text-color);
+  font-size: var(--h3-font-size);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: 1rem;
+  width: 85%;
 }

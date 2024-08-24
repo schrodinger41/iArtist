@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./post.css";
-import { FaHeart, FaComment, FaEllipsisV } from "react-icons/fa";
+import { FaHeart, FaComment, FaEllipsisV, FaEllipsisH } from "react-icons/fa"; // Import horizontal dots icon
 import { auth, db } from "../../config/firebase";
 import {
   doc,
@@ -36,6 +36,7 @@ const Post = ({
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
+  const [commentMenuOpen, setCommentMenuOpen] = useState({}); // Track comment menu state
 
   const user = auth.currentUser;
   const navigate = useNavigate();
@@ -155,13 +156,47 @@ const Post = ({
     setCommentsVisible(false);
   };
 
+  // Toggle the comment menu for each comment
+  const toggleCommentMenu = (commentId) => {
+    setCommentMenuOpen((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId],
+    }));
+  };
+
+  // Handle editing the comment
+  const handleEditComment = (commentId, commentText) => {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId ? { ...comment, isEditing: true } : comment
+      )
+    );
+  };
+
+  // Handle deleting the comment
+  const handleDeleteComment = async (commentId) => {
+    const commentRef = doc(db, "posts", postId, "comments", commentId);
+    await deleteDoc(commentRef);
+  };
+
+  // Handle saving the edited comment
+  const handleSaveComment = async (commentId, newCommentText) => {
+    const commentRef = doc(db, "posts", postId, "comments", commentId);
+    await updateDoc(commentRef, { commentText: newCommentText });
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId ? { ...comment, isEditing: false } : comment
+      )
+    );
+  };
+
   return (
     <div className="post-container">
       <div className="post-header">
         <img src={userPhoto} alt="User Profile" className="user-photo" />
         <div className="user-info">
           <p className="user-name">{userName}</p>
-          <p className="post-date">{formattedDate}</p>{" "}
+          <p className="post-date">{formattedDate}</p>
         </div>
         <div className="post-menu">
           <FaEllipsisV
@@ -209,6 +244,7 @@ const Post = ({
         </div>
       </div>
 
+      {/* Modal for comments */}
       {commentsVisible && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content">
@@ -227,7 +263,67 @@ const Post = ({
                       />
                       <div className="comment-content">
                         <p className="comment-user-name">{comment.userName}</p>
-                        <p className="comment-text">{comment.commentText}</p>
+                        {comment.isEditing ? (
+                          <textarea
+                            className="edit-box"
+                            value={comment.commentText}
+                            onChange={(e) =>
+                              setComments((prevComments) =>
+                                prevComments.map((c) =>
+                                  c.id === comment.id
+                                    ? { ...c, commentText: e.target.value }
+                                    : c
+                                )
+                              )
+                            }
+                          />
+                        ) : (
+                          <p className="comment-text">{comment.commentText}</p>
+                        )}
+                        {user && user.uid === comment.userId && (
+                          <div className="comment-menu">
+                            <FaEllipsisH
+                              onClick={() => toggleCommentMenu(comment.id)}
+                              className="comment-menu-icon"
+                            />
+                            {commentMenuOpen[comment.id] && (
+                              <div className="comment-menu-options">
+                                {comment.isEditing ? (
+                                  <button
+                                    onClick={() =>
+                                      handleSaveComment(
+                                        comment.id,
+                                        comment.commentText
+                                      )
+                                    }
+                                  >
+                                    Save
+                                  </button>
+                                ) : (
+                                  <>
+                                    <button
+                                      onClick={() =>
+                                        handleEditComment(
+                                          comment.id,
+                                          comment.commentText
+                                        )
+                                      }
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(comment.id)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -235,18 +331,15 @@ const Post = ({
               ) : (
                 <p>No comments yet.</p>
               )}
-            </div>
-            {user && (
               <div className="new-comment">
                 <textarea
                   value={newComment}
                   onChange={handleNewCommentChange}
-                  rows="2"
-                  placeholder="Add a comment..."
+                  placeholder="Write a comment..."
                 />
-                <button onClick={handleNewCommentSubmit}>Post</button>
+                <button onClick={handleNewCommentSubmit}>Comment</button>
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
