@@ -81,14 +81,14 @@
   border: 1px solid var(--border-color);
   overflow: hidden;
   padding-bottom: 16px;
-  position: relative; /* Ensure the container is positioned relative */
+  position: relative;
 }
 
 .post-header {
   display: flex;
   align-items: center;
   padding: 16px;
-  position: relative; /* Ensure the header is positioned relative */
+  position: relative;
 }
 
 .user-photo {
@@ -151,9 +151,9 @@
 
 .post-menu {
   position: absolute;
-  right: 16px; /* Adjust this value to move the menu to the right corner */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust vertical centering */
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--text-color);
 }
 
@@ -211,7 +211,7 @@
   color: var(--text-color);
   font-size: var(--normal-font-size);
 }
-/* Modal Overlay */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -225,7 +225,6 @@
   z-index: 1000;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: var(--background);
   border-radius: 8px;
@@ -237,13 +236,11 @@
   position: relative;
 }
 
-/* Comments Section */
 .comments-section {
   max-height: 300px;
   overflow-y: auto;
 }
 
-/* New Comment Section */
 .new-comment {
   position: sticky;
   bottom: 0;
@@ -273,7 +270,6 @@
   cursor: pointer;
 }
 
-/* Individual Comment */
 .comment {
   display: flex;
   align-items: center;
@@ -315,7 +311,6 @@
   overflow-wrap: break-word;
 }
 
-/* Close Modal Button */
 .close-modal-button {
   position: absolute;
   top: 16px;
@@ -330,11 +325,11 @@
 .close-modal-button:hover {
   color: var(--accent-color);
 }
-/* Comment Menu */
+
 .comment-menu {
   position: absolute;
-  top: 10px; /* Adjusted to place it at the top */
-  right: 10px; /* Positioned at the right */
+  top: 10px;
+  right: 10px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -368,9 +363,8 @@
   cursor: pointer;
 }
 
-/* Adjusted comment container to accommodate the positioned menu */
 .comment {
-  position: relative; /* Important: Enables absolute positioning of the menu */
+  position: relative;
   display: flex;
   align-items: flex-start;
   padding: 10px 0;

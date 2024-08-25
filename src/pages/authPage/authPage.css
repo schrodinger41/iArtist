@@ -3,7 +3,11 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--background);
+  background-image: url("../../images/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .info-container,
@@ -27,18 +31,18 @@
   background-size: cover;
   color: white;
   margin-right: 20px;
-  text-align: center; /* Center text */
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Center children vertically */
-  padding: 20px; /* Adjust padding as needed */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .info-logo {
-  width: 60%; /* Adjust size */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 20px; /* Space between logo and text */
+  width: 60%;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .info-text {
