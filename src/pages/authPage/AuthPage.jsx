@@ -146,7 +146,7 @@ const AuthPage = () => {
       const user = result.user;
 
       cookies.set("auth-token", user.accessToken);
-      localStorage.setItem("userUid", user.uid); // Store the user UID in localStorage
+      localStorage.setItem("userUid", user.uid);
 
       const userRef = doc(db, "Users", user.uid);
       await setDoc(userRef, {
@@ -155,7 +155,7 @@ const AuthPage = () => {
         photo: user.photoURL || "",
       });
 
-      localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
+      localStorage.setItem("loginAttempts", "0");
       window.location.assign("/");
     } catch (error) {
       setError(getErrorMessage(error.code));
