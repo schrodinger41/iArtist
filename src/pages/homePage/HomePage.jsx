@@ -74,23 +74,29 @@ const HomePage = () => {
       <div className="content">
         <div className="post-contents">
           {loading ? (
-            <p>Loading posts...</p>
-          ) : posts.length > 0 ? (
-            posts.map((post) => (
-              <Post
-                key={post.id}
-                postId={post.id}
-                imageUrl={post.imageUrl}
-                caption={post.caption || ""}
-                userName={users[post.uid]?.fullName || "Anonymous"}
-                userPhoto={getUserPhoto(users[post.uid])}
-                initialLikes={post.likes || []}
-                postOwnerUid={post.uid}
-                createdAt={post.createdAt}
-              />
-            ))
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+            </div>
           ) : (
-            <p>No posts to display.</p>
+            <div>
+              {posts.length > 0 ? (
+                posts.map((post) => (
+                  <Post
+                    key={post.id}
+                    postId={post.id}
+                    imageUrl={post.imageUrl}
+                    caption={post.caption || ""}
+                    userName={users[post.uid]?.fullName || "Anonymous"}
+                    userPhoto={getUserPhoto(users[post.uid])}
+                    initialLikes={post.likes || []}
+                    postOwnerUid={post.uid}
+                    createdAt={post.createdAt}
+                  />
+                ))
+              ) : (
+                <p>No posts to display.</p>
+              )}
+            </div>
           )}
         </div>
       </div>

@@ -42,7 +42,12 @@ const ProfilePage = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
 
   return (
     <div className="profile-page">
