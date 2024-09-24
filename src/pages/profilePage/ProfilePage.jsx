@@ -13,7 +13,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userRef = doc(db, "Users", userId); // Updated collection name
+        const userRef = doc(db, "Users", userId);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
@@ -36,19 +36,21 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <Navbar />
-      {user ? (
-        <>
-          <img
-            src={user.photo || "https://via.placeholder.com/150"}
-            alt="Profile"
-            className="profile-photo"
-          />
-          <h1>{user.fullName || "Unknown User"}</h1>
-          <p>{user.email || "No email provided"}</p>
-        </>
-      ) : (
-        <p>No user data available</p>
-      )}
+      <div className="profile-contents">
+        {user ? (
+          <>
+            <img
+              src={user.photo || "https://via.placeholder.com/150"}
+              alt="Profile"
+              className="profile-photo"
+            />
+            <h1 className="userName">{user.fullName || "Unknown User"}</h1>
+            <p className="userEmail">{user.email || "No email provided"}</p>
+          </>
+        ) : (
+          <p>No user data available</p>
+        )}
+      </div>
     </div>
   );
 };
