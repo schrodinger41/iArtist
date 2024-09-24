@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, query, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  getDocs,
+  doc,
+  getDoc,
+  orderBy,
+} from "firebase/firestore";
 import Navbar from "../../components/navbar/Navbar";
 import Post from "../../components/post/Post";
 import "./homepage.css";
@@ -16,7 +23,8 @@ const HomePage = () => {
     const fetchPostsAndUsers = async () => {
       try {
         const postsRef = collection(db, "posts");
-        const q = query(postsRef);
+        // Order the posts by createdAt in descending order
+        const q = query(postsRef, orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {

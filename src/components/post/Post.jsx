@@ -349,6 +349,12 @@ const Post = ({
                 value={newComment}
                 onChange={handleNewCommentChange}
                 placeholder="Write a comment..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleNewCommentSubmit();
+                  }
+                }}
               />
               <button onClick={handleNewCommentSubmit}>Comment</button>
             </div>

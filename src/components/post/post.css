@@ -195,6 +195,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   resize: none;
+  font-family: "Inter";
 }
 
 .post-caption button {
