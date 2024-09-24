@@ -57,6 +57,17 @@ const HomePage = () => {
     fetchPostsAndUsers();
   }, [navigate]);
 
+  const getUserPhoto = (user) => {
+    if (user?.photo) {
+      return user.photo;
+    } else if (user?.fullName) {
+      const initials = user.fullName.charAt(0).toUpperCase();
+      return `https://via.placeholder.com/150?text=${initials}`;
+    } else {
+      return "https://via.placeholder.com/150?text=A"; // Default placeholder with 'A'
+    }
+  };
+
   return (
     <div className="home">
       <Navbar />
@@ -72,9 +83,7 @@ const HomePage = () => {
                 imageUrl={post.imageUrl}
                 caption={post.caption || ""}
                 userName={users[post.uid]?.fullName || "Anonymous"}
-                userPhoto={
-                  users[post.uid]?.photo || "https://via.placeholder.com/150"
-                }
+                userPhoto={getUserPhoto(users[post.uid])}
                 initialLikes={post.likes || []}
                 postOwnerUid={post.uid}
                 createdAt={post.createdAt}
