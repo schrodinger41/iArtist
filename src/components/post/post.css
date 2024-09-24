@@ -240,6 +240,17 @@
   max-height: 300px;
   overflow-y: auto;
 }
+.comments-section::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.comments-section::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.comments-section::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
 
 .new-comment {
   position: sticky;
@@ -247,6 +258,7 @@
   background-color: var(--background);
   display: flex;
   flex-direction: column;
+  margin-top: 8px;
 }
 
 .new-comment textarea {

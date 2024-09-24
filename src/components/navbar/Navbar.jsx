@@ -25,12 +25,12 @@ const Navbar = () => {
   useEffect(() => {
     setIsAuth(cookies.get("auth-token") ? true : false);
 
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      setUserUid(currentUser.uid);
-      console.log("User UID:", currentUser.uid);
+    const storedUid = localStorage.getItem("userUid"); // Get the userUid from localStorage
+    if (storedUid) {
+      setUserUid(storedUid);
+      console.log("User UID:", storedUid);
     } else {
-      console.log("No current user");
+      console.log("No user UID in localStorage");
     }
   }, [isAuth]);
 
@@ -43,6 +43,7 @@ const Navbar = () => {
       await signOut(auth);
       cookies.remove("auth-token");
       setIsAuth(false);
+      localStorage.removeItem("userUid"); // Clear user UID on logout
       window.location.href = "/";
     } catch (error) {
       console.error("Error logging out:", error);

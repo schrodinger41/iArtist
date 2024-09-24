@@ -193,11 +193,21 @@ const Post = ({
   return (
     <div className="post-container">
       <div className="post-header">
-      <img src={userPhoto} alt="User Profile" className="user-photo" onClick={handleViewProfile} style={{ cursor: 'pointer' }} />
+        <img
+          src={userPhoto}
+          alt="User Profile"
+          className="user-photo"
+          onClick={handleViewProfile}
+          style={{ cursor: "pointer" }}
+        />
         <div className="user-info">
-        <p className="user-name" onClick={handleViewProfile} style={{ cursor: 'pointer' }}>
-      {userName}
-    </p>
+          <p
+            className="user-name"
+            onClick={handleViewProfile}
+            style={{ cursor: "pointer" }}
+          >
+            {userName}
+          </p>
           <p className="post-date">{formattedDate}</p>
         </div>
         <div className="post-menu">
@@ -333,14 +343,14 @@ const Post = ({
               ) : (
                 <p className="comment-placeholder">No comments yet.</p>
               )}
-              <div className="new-comment">
-                <textarea
-                  value={newComment}
-                  onChange={handleNewCommentChange}
-                  placeholder="Write a comment..."
-                />
-                <button onClick={handleNewCommentSubmit}>Comment</button>
-              </div>
+            </div>
+            <div className="new-comment">
+              <textarea
+                value={newComment}
+                onChange={handleNewCommentChange}
+                placeholder="Write a comment..."
+              />
+              <button onClick={handleNewCommentSubmit}>Comment</button>
             </div>
           </div>
         </div>

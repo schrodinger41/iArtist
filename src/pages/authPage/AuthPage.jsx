@@ -100,7 +100,9 @@ const AuthPage = () => {
             fullName: fname,
             photo: user.photoURL || "",
           });
+
           cookies.set("auth-token", user.accessToken);
+          localStorage.setItem("userUid", user.uid); // Store the user UID in localStorage
           localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
           window.location.assign("/");
         }
@@ -117,6 +119,7 @@ const AuthPage = () => {
         const user = userCredential.user;
 
         cookies.set("auth-token", user.accessToken);
+        localStorage.setItem("userUid", user.uid); // Store the user UID in localStorage
         localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
         window.location.assign("/");
       } catch (error) {
@@ -143,6 +146,7 @@ const AuthPage = () => {
       const user = result.user;
 
       cookies.set("auth-token", user.accessToken);
+      localStorage.setItem("userUid", user.uid); // Store the user UID in localStorage
 
       const userRef = doc(db, "Users", user.uid);
       await setDoc(userRef, {

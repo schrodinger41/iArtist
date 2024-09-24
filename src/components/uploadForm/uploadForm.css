@@ -108,6 +108,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .upload-btn:disabled {
@@ -123,6 +124,7 @@
   background-color: var(--container-color);
   color: var(--text-color);
   resize: none;
+  font-family: "Inter";
 }
 
 .error {
