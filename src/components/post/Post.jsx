@@ -32,6 +32,7 @@ const Post = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [caption, setCaption] = useState(initialCaption);
+  const [charCount, setCharCount] = useState(255 - initialCaption.length); // Character count state
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -91,7 +92,11 @@ const Post = ({
   };
 
   const handleCaptionChange = (e) => {
-    setCaption(e.target.value);
+    const input = e.target.value;
+    if (input.length <= 255) {
+      setCaption(input);
+      setCharCount(255 - input.length); // Update character count
+    }
   };
 
   const handleSave = async () => {
@@ -231,7 +236,12 @@ const Post = ({
       <div className="post-caption">
         {isEditing ? (
           <div>
-            <textarea value={caption} onChange={handleCaptionChange} rows="3" />
+            <textarea
+              value={caption}
+              onChange={handleCaptionChange}
+              rows="3"
+              maxLength="255"
+            />
             <button onClick={handleSave}>Save</button>
           </div>
         ) : (
@@ -349,6 +359,12 @@ const Post = ({
                 value={newComment}
                 onChange={handleNewCommentChange}
                 placeholder="Write a comment..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleNewCommentSubmit();
+                  }
+                }}
               />
               <button onClick={handleNewCommentSubmit}>Comment</button>
             </div>

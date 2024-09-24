@@ -13,6 +13,7 @@ const UploadForm = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [charCount, setCharCount] = useState(255); // To track remaining characters
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,14 @@ const UploadForm = () => {
     if (file) {
       setImage(file);
       setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleCaptionChange = (e) => {
+    const input = e.target.value;
+    if (input.length <= 255) {
+      setCaption(input);
+      setCharCount(255 - input.length); // Update remaining characters
     }
   };
 
@@ -71,6 +80,7 @@ const UploadForm = () => {
       setImage(null);
       setCaption("");
       setImagePreview(null);
+      setCharCount(255); // Reset character count
       setLoading(false);
       window.location.href = "/";
     } catch (err) {
@@ -92,7 +102,7 @@ const UploadForm = () => {
                 className="user-photo"
               />
               <div className="user-details">
-                <p>{userData.fullName || "Anonymous"}</p>{" "}
+                <p>{userData.fullName || "Anonymous"}</p>
               </div>
             </div>
           ) : (
@@ -109,10 +119,11 @@ const UploadForm = () => {
         </div>
 
         <textarea
-          placeholder="Enter a caption for your image..."
+          placeholder="Enter a caption for your image (max 255 characters)..."
           value={caption}
-          onChange={(e) => setCaption(e.target.value)}
+          onChange={handleCaptionChange}
         ></textarea>
+
         {error && <p className="error">{error}</p>}
       </div>
 
