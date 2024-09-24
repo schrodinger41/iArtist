@@ -13,6 +13,10 @@ import "./authPage.css";
 import Icon from "../../images/icon.png";
 
 const cookies = new Cookies();
+const MAX_ATTEMPTS = 3; // Maximum login attempts
+const LOCKOUT_TIME = 5 * 60 * 1000; // Lockout time in milliseconds (5 minutes)
+const MIN_PASSWORD_LENGTH = 8;
+const MAX_PASSWORD_LENGTH = 20;
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -35,7 +39,7 @@ const AuthPage = () => {
       case "auth/email-already-in-use":
         return "Email is already in use.";
       case "auth/weak-password":
-        return "Password should be at least 6 characters.";
+        return "Password should be at least 8 characters.";
       case "auth/invalid-credential":
         return "Invalid credentials provided.";
       default:
@@ -44,12 +48,34 @@ const AuthPage = () => {
   };
 
   const handleAuth = async () => {
+    const attempts = parseInt(localStorage.getItem("loginAttempts")) || 0;
+    const lockoutEnd = parseInt(localStorage.getItem("lockoutEnd")) || 0;
+    const now = Date.now();
+
+    if (lockoutEnd > now) {
+      const remainingTime = Math.ceil((lockoutEnd - now) / 1000 / 60); // Convert to minutes
+      setError(
+        `You are locked out. Please try again in ${remainingTime} minute(s).`
+      );
+      return;
+    }
+
     if (
       !email ||
       !password ||
       (isRegistering && (!fname || !confirmPassword))
     ) {
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (
+      password.length < MIN_PASSWORD_LENGTH ||
+      password.length > MAX_PASSWORD_LENGTH
+    ) {
+      setError(
+        `Password must be between ${MIN_PASSWORD_LENGTH} and ${MAX_PASSWORD_LENGTH} characters.`
+      );
       return;
     }
 
@@ -68,16 +94,15 @@ const AuthPage = () => {
 
         if (user) {
           await updateProfile(user, { displayName: fname });
-
           const userRef = doc(db, "Users", user.uid);
           await setDoc(userRef, {
             email: user.email,
             fullName: fname,
             photo: user.photoURL || "",
           });
-
-          cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
-          window.location.assign("/"); // Replace with navigate("/") if using React Router
+          cookies.set("auth-token", user.accessToken);
+          localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
+          window.location.assign("/");
         }
       } catch (error) {
         setError(getErrorMessage(error.code));
@@ -91,10 +116,23 @@ const AuthPage = () => {
         );
         const user = userCredential.user;
 
-        cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
-        window.location.assign("/"); // Replace with navigate("/") if using React Router
+        cookies.set("auth-token", user.accessToken);
+        localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
+        window.location.assign("/");
       } catch (error) {
         setError(getErrorMessage(error.code));
+
+        // Increment login attempts and handle lockout
+        const newAttempts = attempts + 1;
+        if (newAttempts >= MAX_ATTEMPTS) {
+          const lockoutEndTime = now + LOCKOUT_TIME;
+          localStorage.setItem("lockoutEnd", lockoutEndTime.toString());
+          setError(
+            "Too many failed attempts. You are locked out for 5 minutes."
+          );
+        } else {
+          localStorage.setItem("loginAttempts", newAttempts.toString());
+        }
       }
     }
   };
@@ -104,7 +142,7 @@ const AuthPage = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      cookies.set("auth-token", user.accessToken); // Use accessToken instead of refreshToken
+      cookies.set("auth-token", user.accessToken);
 
       const userRef = doc(db, "Users", user.uid);
       await setDoc(userRef, {
@@ -113,15 +151,10 @@ const AuthPage = () => {
         photo: user.photoURL || "",
       });
 
-      window.location.assign("/"); // Replace with navigate("/") if using React Router
+      localStorage.setItem("loginAttempts", "0"); // Reset attempts on successful login
+      window.location.assign("/");
     } catch (error) {
       setError(getErrorMessage(error.code));
-    }
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleAuth();
     }
   };
 
@@ -141,7 +174,6 @@ const AuthPage = () => {
               placeholder="Full Name"
               className="input"
               onChange={(e) => setFname(e.target.value)}
-              onKeyPress={handleKeyPress}
             />
           )}
           <input
@@ -149,14 +181,12 @@ const AuthPage = () => {
             placeholder="Email"
             className="input"
             onChange={(e) => setEmail(e.target.value)}
-            onKeyPress={handleKeyPress}
           />
           <input
             type="password"
             placeholder="Password"
             className="input"
             onChange={(e) => setPassword(e.target.value)}
-            onKeyPress={handleKeyPress}
           />
           {isRegistering && (
             <input
@@ -164,7 +194,6 @@ const AuthPage = () => {
               placeholder="Confirm Password"
               className="input"
               onChange={(e) => setConfirmPassword(e.target.value)}
-              onKeyPress={handleKeyPress}
             />
           )}
           <button className="button" type="button" onClick={handleAuth}>
