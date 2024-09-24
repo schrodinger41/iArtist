@@ -193,9 +193,11 @@ const Post = ({
   return (
     <div className="post-container">
       <div className="post-header">
-        <img src={userPhoto} alt="User Profile" className="user-photo" />
+      <img src={userPhoto} alt="User Profile" className="user-photo" onClick={handleViewProfile} style={{ cursor: 'pointer' }} />
         <div className="user-info">
-          <p className="user-name">{userName}</p>
+        <p className="user-name" onClick={handleViewProfile} style={{ cursor: 'pointer' }}>
+      {userName}
+    </p>
           <p className="post-date">{formattedDate}</p>
         </div>
         <div className="post-menu">
