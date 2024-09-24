@@ -329,7 +329,7 @@ const Post = ({
                   ))}
                 </div>
               ) : (
-                <p>No comments yet.</p>
+                <p className="comment-placeholder">No comments yet.</p>
               )}
               <div className="new-comment">
                 <textarea

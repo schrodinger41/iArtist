@@ -31,6 +31,17 @@ const ProfilePage = () => {
     fetchUserData();
   }, [userId]);
 
+  const getUserPhoto = (user) => {
+    if (user?.photo) {
+      return user.photo;
+    } else if (user?.fullName) {
+      const initials = user.fullName.charAt(0).toUpperCase();
+      return `https://via.placeholder.com/150?text=${initials}`;
+    } else {
+      return "https://via.placeholder.com/150?text=U"; // Default placeholder with 'U' for "Unknown"
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -40,7 +51,7 @@ const ProfilePage = () => {
         {user ? (
           <>
             <img
-              src={user.photo || "https://via.placeholder.com/150"}
+              src={getUserPhoto(user)}
               alt="Profile"
               className="profile-photo"
             />
