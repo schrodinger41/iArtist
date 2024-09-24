@@ -127,6 +127,17 @@
   font-family: "Inter";
 }
 
+.upload-info textarea::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.upload-info textarea::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.upload-info textarea::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
 .error {
   color: red;
   margin-top: 10px;
