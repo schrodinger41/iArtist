@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs
+} from "firebase/firestore";
 import { db } from "../../config/firebase";
 import Navbar from "../../components/navbar/Navbar";
 import Post from "../../components/post/Post"; // Ensure this import matches your Post component
 import Modal from "../../components/ModalPost/Modal"; // Import your Modal component
+import { FaHeart, FaComment } from "react-icons/fa"; // Add Font Awesome icons
 import "./profilePage.css";
 
 const ProfilePage = () => {
@@ -13,6 +21,11 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState(null); // State for the selected post for the modal
+
+
+  const totalLikes = posts.reduce((acc, post) => acc + (post.likes?.length || 0), 0);
+  const totalComments = posts.reduce((acc, post) => acc + (post.comments?.length || 0), 0);
+  const totalPosts = posts.length;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,6 +56,8 @@ const ProfilePage = () => {
         const postsData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
+          likes: doc.data().likes || [], // Ensure likes and comments are initialized
+          comments: doc.data().comments || []
         }));
 
         setPosts(postsData);
@@ -66,6 +81,7 @@ const ProfilePage = () => {
   };
 
   const handleImageClick = (post) => {
+    console.log("Image clicked:", post);
     setSelectedPost(post); // Set the selected post to display in the modal
   };
 
@@ -84,37 +100,76 @@ const ProfilePage = () => {
     <div className="profile-page">
       <Navbar />
       <div className="profile-contents">
-        {user ? (
-          <>
-            <img
-              src={getUserPhoto(user)}
-              alt="Profile"
-              className="profile-photo"
-            />
-            <h1 className="userName">{user.fullName || "Unknown User"}</h1>
-            <p className="userEmail">{user.email || "No email provided"}</p>
-          </>
-        ) : (
-          <p>No user data available</p>
-        )}
+        <div className="profile-data">
+          {user ? (
+            <>
+              <img
+                src={getUserPhoto(user)}
+                alt="Profile"
+                className="profile-photo"
+              />
+
+              <div className="column-1">
+                <div className="column-2">
+
+                  <div>
+                    <h1 className="userName">{user.fullName || "Unknown User"}</h1>
+                  </div>
+
+                  <div>
+                  <button className="edit-profile-button" >
+                    Edit Profile
+                  </button>
+                  </div>
+                  
+                </div>
+
+                <div className="profile-stats">
+                  <p><b>{totalPosts}</b> posts</p>
+                  <p><b>{totalLikes}</b> likes</p>
+                  <p><b>{totalComments}</b> comments</p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <p>No user data available</p>
+          )}
+        </div>
         <span className="divider"></span>
         <div className="posts-section">
-  {posts.length > 0 ? (
-    <div className="post-grid">
-      {posts.map((post) => (
-        <img
-          key={post.id}
-          src={post.imageUrl}
-          alt={post.caption || ""}
-          className="posts-image"
-          onClick={() => handleImageClick(post)} // Pass the whole post to the click handler
-        />
-      ))}
-    </div>
-  ) : (
-    <p>No posts to display.</p>
-  )}
-</div>
+          {posts.length > 0 ? (
+            <div className="post-grid">
+              {posts.map((post) => (
+                <div className="posts-image-container" key={post.id}>
+                  <img
+                    src={post.imageUrl}
+                    alt={post.caption || ""}
+                    className="posts-image"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleImageClick(post);
+                    }}
+                  />
+                  <div className="overlay">
+                    <div className="overlay-info">
+                      <div className="likes-comments">
+                        <div className="likes">
+                          <FaHeart /> {post.likes ? post.likes.length : 0}
+                        </div>
+                        <div className="comments">
+                          <FaComment />{" "}
+                          {post.comments ? post.comments.length : 0}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No posts to display.</p>
+          )}
+        </div>
 
         {selectedPost && (
           <Modal onClose={closeModal}>
