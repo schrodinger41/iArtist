@@ -6,7 +6,7 @@ import {
   collection,
   query,
   where,
-  getDocs
+  getDocs,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import Navbar from "../../components/navbar/Navbar";
@@ -22,9 +22,14 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState(null); // State for the selected post for the modal
 
-
-  const totalLikes = posts.reduce((acc, post) => acc + (post.likes?.length || 0), 0);
-  const totalComments = posts.reduce((acc, post) => acc + (post.comments?.length || 0), 0);
+  const totalLikes = posts.reduce(
+    (acc, post) => acc + (post.likes?.length || 0),
+    0
+  );
+  const totalComments = posts.reduce(
+    (acc, post) => acc + (post.comments?.length || 0),
+    0
+  );
   const totalPosts = posts.length;
 
   useEffect(() => {
@@ -53,12 +58,25 @@ const ProfilePage = () => {
         const q = query(postsRef, where("uid", "==", userId)); // Fetch posts by user ID
         const querySnapshot = await getDocs(q);
 
-        const postsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          likes: doc.data().likes || [], // Ensure likes and comments are initialized
-          comments: doc.data().comments || []
-        }));
+        const postsData = await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const postData = doc.data();
+
+            // Fetch comments for each post
+            const commentsRef = collection(db, "posts", doc.id, "comments");
+            const commentsSnapshot = await getDocs(commentsRef);
+            const commentsData = commentsSnapshot.docs.map((commentDoc) =>
+              commentDoc.data()
+            );
+
+            return {
+              id: doc.id,
+              ...postData,
+              likes: postData.likes || [], // Ensure likes are initialized
+              comments: commentsData, // Add fetched comments to post data
+            };
+          })
+        );
 
         setPosts(postsData);
       } catch (error) {
@@ -111,23 +129,29 @@ const ProfilePage = () => {
 
               <div className="column-1">
                 <div className="column-2">
-
                   <div>
-                    <h1 className="userName">{user.fullName || "Unknown User"}</h1>
+                    <h1 className="userName">
+                      {user.fullName || "Unknown User"}
+                    </h1>
                   </div>
 
                   <div>
-                  <button className="edit-profile-button" >
-                    Edit Profile
-                  </button>
+                    <button className="edit-profile-button">
+                      Edit Profile
+                    </button>
                   </div>
-                  
                 </div>
 
                 <div className="profile-stats">
-                  <p><b>{totalPosts}</b> posts</p>
-                  <p><b>{totalLikes}</b> likes</p>
-                  <p><b>{totalComments}</b> comments</p>
+                  <p>
+                    <b>{totalPosts}</b> posts
+                  </p>
+                  <p>
+                    <b>{totalLikes}</b> likes
+                  </p>
+                  <p>
+                    <b>{totalComments}</b> comments
+                  </p>
                 </div>
               </div>
             </>
