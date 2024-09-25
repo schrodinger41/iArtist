@@ -66,10 +66,26 @@
 
 }
 
+.threedots{
+  color: white;
+  font-size: 16px;
+}
+
 .profile-stats{
   display: flex;
   gap: 1rem;
   font-size: 12px;
+}
+
+.socials{
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 20px;
+  font-size: 25px;
+}
+
+.social-icon{
+  color: white;
 }
 
 .userName {
@@ -105,7 +121,7 @@
 
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(4, 1fr); 
   gap: 10px;
 }
 
@@ -128,8 +144,9 @@
 }
 
 .posts-image {
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px; /* Set a fixed height for all images */
+  object-fit: cover; /* Maintain aspect ratio and cover the area */
   transition: opacity 0.3s ease;
 }
 
@@ -174,3 +191,12 @@
   gap: 5px;
 }
 
+.edit-profile-button{
+  color: white;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+
+.edit-profile-button:hover{
+  background: var(--secondary-color);
+}

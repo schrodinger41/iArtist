@@ -6,13 +6,18 @@ import {
   collection,
   query,
   where,
-  getDocs,
+  getDocs
 } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import Navbar from "../../components/navbar/Navbar";
 import Post from "../../components/post/Post"; // Ensure this import matches your Post component
 import Modal from "../../components/ModalPost/Modal"; // Import your Modal component
+import EditProfile from "../../components/EditProfile/EditProfile";
 import { FaHeart, FaComment } from "react-icons/fa"; // Add Font Awesome icons
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaSquareXTwitter, FaSquareInstagram, FaLinkedin } from "react-icons/fa6"; // Add LinkedIn icon
+import { MdEmail } from "react-icons/md"; // Add Email icon
+import { MdAttachEmail } from "react-icons/md";
 import "./profilePage.css";
 
 const ProfilePage = () => {
@@ -21,6 +26,16 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState(null); // State for the selected post for the modal
+
+  const currentUser = auth.currentUser;
+
+  const [isEditing, setIsEditing] = useState(false); // State to manage the editing mode
+
+  const toggleEditProfile = () => {
+    setIsEditing(!isEditing); // Toggle the editing state
+  };
+
+  
 
   const totalLikes = posts.reduce(
     (acc, post) => acc + (post.likes?.length || 0),
@@ -37,9 +52,11 @@ const ProfilePage = () => {
       try {
         const userRef = doc(db, "Users", userId);
         const userSnap = await getDoc(userRef);
-
+    
         if (userSnap.exists()) {
-          setUser(userSnap.data());
+          const userData = userSnap.data();
+          // Ensure uid is included in the user object
+          setUser({ ...userData, uid: userId });
           // Fetch user posts after setting the user data
           await fetchUserPosts(userId);
         } else {
@@ -51,6 +68,7 @@ const ProfilePage = () => {
         setLoading(false);
       }
     };
+    
 
     const fetchUserPosts = async (userId) => {
       try {
@@ -73,7 +91,7 @@ const ProfilePage = () => {
               id: doc.id,
               ...postData,
               likes: postData.likes || [], // Ensure likes are initialized
-              comments: commentsData, // Add fetched comments to post data
+              comments: commentsData // Add fetched comments to post data
             };
           })
         );
@@ -136,9 +154,17 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <button className="edit-profile-button">
-                      Edit Profile
-                    </button>
+                    {currentUser && currentUser.uid === userId ? (
+                      <div>
+                        <button className="edit-profile-button" onClick={toggleEditProfile}>
+                          Edit Profile
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="threedots">
+                        <BsThreeDotsVertical />
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -153,6 +179,29 @@ const ProfilePage = () => {
                     <b>{totalComments}</b> comments
                   </p>
                 </div>
+
+                <div className="socials">
+                  {user.email && (
+                    <a href={`mailto:${user.email}`} target="_blank" rel="noopener noreferrer">
+                      <MdAttachEmail className="social-icon" /> 
+                    </a>
+                  )}
+                  {user.instagram && (
+                    <a href={`${user.instagram}`} target="_blank" rel="noopener noreferrer">
+                      <FaSquareInstagram className="social-icon" /> 
+                    </a>
+                  )}
+                  {user.twitter && (
+                    <a href={`${user.twitter}`} target="_blank" rel="noopener noreferrer">
+                      <FaSquareXTwitter className="social-icon" /> 
+                    </a>
+                  )}
+                  {user.linkedIn && (
+                    <a href={user.linkedIn} target="_blank" rel="noopener noreferrer">
+                      <FaLinkedin className="social-icon" /> 
+                    </a>
+                  )}
+                </div>
               </div>
             </>
           ) : (
@@ -160,6 +209,11 @@ const ProfilePage = () => {
           )}
         </div>
         <span className="divider"></span>
+
+        {isEditing && (
+          <EditProfile user={user} onClose={toggleEditProfile} />
+        )}
+
         <div className="posts-section">
           {posts.length > 0 ? (
             <div className="post-grid">
