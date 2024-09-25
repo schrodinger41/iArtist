@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./post.css";
 import { FaHeart, FaComment, FaEllipsisV, FaEllipsisH } from "react-icons/fa"; // Import horizontal dots icon
 import { auth, db } from "../../config/firebase";
+import { ref, deleteObject } from "firebase/storage"; // Import deleteObject from Firebase Storage
+import { storage } from "../../config/firebase"; // Import your Firebase storage configuration
+import { getDoc } from "firebase/firestore";
 import {
   doc,
   updateDoc,
@@ -112,8 +115,26 @@ const Post = ({
   const handleDelete = async () => {
     try {
       const postRef = doc(db, "posts", postId);
+
+      // Get the image URL from the post
+      const postSnapshot = await getDoc(postRef);
+      const postData = postSnapshot.data();
+      const imageUrl = postData.imageUrl;
+
+      // If imageUrl exists, delete the image from Firebase Storage
+      if (imageUrl) {
+        // Create a reference to the file to delete
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef);
+        console.log("Image deleted from Firebase Storage");
+      }
+
+      // Delete the post document from Firestore
       await deleteDoc(postRef);
-      window.location.reload();
+      console.log("Post deleted from Firestore");
+
+      // Optionally, you can refresh the page or navigate away
+      window.location.reload(); // Or use navigate("/somePath");
     } catch (error) {
       console.error("Error deleting post:", error);
     }
