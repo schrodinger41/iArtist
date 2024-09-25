@@ -66,6 +66,11 @@
 
 }
 
+.threedots{
+  color: white;
+  font-size: 16px;
+}
+
 .profile-stats{
   display: flex;
   gap: 1rem;
@@ -105,7 +110,7 @@
 
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(4, 1fr); 
   gap: 10px;
 }
 
@@ -128,8 +133,9 @@
 }
 
 .posts-image {
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px; /* Set a fixed height for all images */
+  object-fit: cover; /* Maintain aspect ratio and cover the area */
   transition: opacity 0.3s ease;
 }
 

@@ -6,13 +6,14 @@ import {
   collection,
   query,
   where,
-  getDocs,
+  getDocs
 } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import Navbar from "../../components/navbar/Navbar";
 import Post from "../../components/post/Post"; // Ensure this import matches your Post component
 import Modal from "../../components/ModalPost/Modal"; // Import your Modal component
 import { FaHeart, FaComment } from "react-icons/fa"; // Add Font Awesome icons
+import { BsThreeDotsVertical } from "react-icons/bs";
 import "./profilePage.css";
 
 const ProfilePage = () => {
@@ -21,6 +22,8 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState(null); // State for the selected post for the modal
+
+  const currentUser = auth.currentUser;
 
   const totalLikes = posts.reduce(
     (acc, post) => acc + (post.likes?.length || 0),
@@ -73,7 +76,7 @@ const ProfilePage = () => {
               id: doc.id,
               ...postData,
               likes: postData.likes || [], // Ensure likes are initialized
-              comments: commentsData, // Add fetched comments to post data
+              comments: commentsData // Add fetched comments to post data
             };
           })
         );
@@ -136,9 +139,17 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <button className="edit-profile-button">
-                      Edit Profile
-                    </button>
+                    {currentUser && currentUser.uid === userId ? (
+                      <div>
+                        <button className="edit-profile-button">
+                          Edit Profile
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="threedots">
+                        <BsThreeDotsVertical />
+                      </div>
+                    )}
                   </div>
                 </div>
 
