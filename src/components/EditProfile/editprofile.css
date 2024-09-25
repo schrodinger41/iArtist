@@ -1,128 +1,129 @@
 .modalpost-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
 }
 
-.editprofile-form{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 30px;
-    border-radius: 8px;
-    width: 500px;
-    background: var(--background);
+.editprofile-form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 30px;
+  border-radius: 8px;
+  width: 500px;
+  background: var(--background);
 }
 
-.editprofile-form p{
-    font-size: 16px;
-    font-weight: semi-bold;
-    margin-bottom: 10px;
+.editprofile-form p {
+  font-size: 16px;
+  font-weight: semi-bold;
+  margin-bottom: 10px;
 }
 
-.contacts{
-    margin-top: 20px;
-    font-size: 16px;
-    color: white;
-    margin-bottom: 10px;
+.contacts {
+  margin-top: 20px;
+  font-size: 16px;
+  color: white;
+  margin-bottom: 10px;
 }
 .input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .input-icon {
-    position: absolute;
-    left: 10px; /* Adjust the left position as needed */
-    color: #999; /* Icon color */
-    font-size: 20px; /* Adjust icon size as needed */
+  position: absolute;
+  left: 10px; /* Adjust the left position as needed */
+  color: #999; /* Icon color */
+  font-size: 20px; /* Adjust icon size as needed */
 }
 
 input[type="email"],
 input[type="text"] {
-    padding: 10px 10px 10px 40px; /* Add padding to the left to make space for the icon */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 14px;
-    transition: border-color 0.3s;
+  padding: 10px 10px 10px 40px; /* Add padding to the left to make space for the icon */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
 input[type="email"]:focus,
 input[type="text"]:focus {
-    border-color: #0095f6; /* Focus border color */
+  border-color: #0095f6; /* Focus border color */
 }
 
 .secondary-btn {
-    padding: 12px; /* Increased padding for buttons */
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px; /* Spacing for buttons */
+  padding: 12px; /* Increased padding for buttons */
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px; /* Spacing for buttons */
 }
 
 .secondary-btn[type="submit"] {
-    background: var(--primary-color); /* Instagram primary button color */
-    color: white;
+  background: var(--primary-color); /* Instagram primary button color */
+  color: white;
 }
 
 .secondary-btn[type="button"] {
-    background: #e1e1e1; /* Light grey for cancel button */
-    color: black;
+  background: #e1e1e1; /* Light grey for cancel button */
+  color: black;
 }
 
 .secondary-btn:hover {
-    opacity: 0.9; /* Simple hover effect */
+  opacity: 0.9; /* Simple hover effect */
 }
 
-.image-preview {
-    position: relative;
-    display: inline-flex; /* Change to inline-flex for better alignment */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
+.image-previews {
+  position: relative;
+  display: inline-flex; /* Change to inline-flex for better alignment */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
 }
 
-.image-preview img {
-    width: 100px; /* Adjust size as needed */
-    height: 100px; /* Adjust size as needed */
-    border-radius: 50%; /* Make it circular */
-    object-fit: cover; /* Ensure the image fits nicely */
+.image-previews img {
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Ensure the image fits nicely */
 }
 
 .camera-icon {
-    position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust the positioning to perfectly center */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.3s; /* Smooth transition */
-    cursor: pointer; /* Indicate that it's clickable */
-    color: white; /* Icon color */
-    font-size: 24px; /* Icon size */
-    background: rgba(0, 0, 0, 0.5); /* Background for better visibility */
-    padding: 10px; /* Add padding around the icon */
-    border-radius: 50%; /* Make it circular */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Adjust the positioning to perfectly center */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s; /* Smooth transition */
+  cursor: pointer; /* Indicate that it's clickable */
+  color: white; /* Icon color */
+  font-size: 24px; /* Icon size */
+  background: rgba(0, 0, 0, 0.5); /* Background for better visibility */
+  padding: 10px; /* Add padding around the icon */
+  border-radius: 50%; /* Make it circular */
 }
 
 .image-preview:hover .camera-icon {
-    opacity: 1; /* Show icon on hover */
-}
-  
-.upload-profile{
-    display:none;
+  opacity: 1; /* Show icon on hover */
 }
 
-
+.upload-profile {
+  display: none;
+}
