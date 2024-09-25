@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { storage, db, auth } from "../../config/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { FaImages } from "react-icons/fa6";
@@ -50,11 +50,36 @@ const UploadForm = () => {
     }
   };
 
+  const checkIfImageExists = async () => {
+    const user = auth.currentUser;
+    if (!user || !image) {
+      return false;
+    }
+
+    const userImagesRef = ref(storage, `images/${user.uid}/`);
+    const list = await listAll(userImagesRef);
+
+    for (const itemRef of list.items) {
+      if (itemRef.name === image.name) {
+        return true; // Image with the same name exists
+      }
+    }
+    return false;
+  };
+
   const handleUpload = async () => {
     setLoading(true);
     setError("");
     if (!image || !caption) {
       setError("Please upload an image and enter a caption.");
+      setLoading(false);
+      return;
+    }
+
+    // Check if image already exists
+    const imageExists = await checkIfImageExists();
+    if (imageExists) {
+      setError("This image has already been uploaded.");
       setLoading(false);
       return;
     }
