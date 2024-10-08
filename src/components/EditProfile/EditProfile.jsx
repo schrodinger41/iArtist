@@ -120,6 +120,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.fullName}
               onChange={handleChange}
               required
+              className="text-input"
             />
           </div>
 
@@ -136,6 +137,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
+              className="email-input"
             />
           </div>
 
