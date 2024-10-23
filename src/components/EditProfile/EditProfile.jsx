@@ -110,7 +110,6 @@ const EditProfile = ({ user, onClose }) => {
               </label>
             </div>
           )}
-
           <p>Name</p>
           <div className="input-container">
             <MdPerson className="input-icon" />
