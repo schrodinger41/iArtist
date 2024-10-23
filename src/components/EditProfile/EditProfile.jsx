@@ -7,7 +7,6 @@ import { MdEmail, MdPerson } from "react-icons/md";
 import "./editprofile.css";
 import { FaCamera } from "react-icons/fa"; // Add this import for the camera icon
 
-
 const EditProfile = ({ user, onClose }) => {
   if (!user || !user.uid) {
     console.error("User object is not valid or missing 'uid'.");
@@ -21,7 +20,7 @@ const EditProfile = ({ user, onClose }) => {
     linkedIn: user.linkedIn || "",
     instagram: user.instagram || "",
     twitter: user.twitter || "",
-    facebook: user.facebook || ""
+    facebook: user.facebook || "",
   });
 
   const [newPhoto, setNewPhoto] = useState(null); // For storing the new profile picture file
@@ -56,7 +55,10 @@ const EditProfile = ({ user, onClose }) => {
 
       // If a new profile picture is selected, upload it to Firebase Storage
       if (newPhoto) {
-        const photoRef = ref(storage, `profilePictures/${user.uid}/${newPhoto.name}`);
+        const photoRef = ref(
+          storage,
+          `profilePictures/${user.uid}/${newPhoto.name}`
+        );
         await uploadBytes(photoRef, newPhoto); // Upload new photo
         const photoURL = await getDownloadURL(photoRef); // Get the photo URL
         updatedData.photo = photoURL; // Update the photo URL in the formData
@@ -70,32 +72,44 @@ const EditProfile = ({ user, onClose }) => {
       setError("Failed to update profile. Please try again.");
       console.error("Error updating profile:", error);
     }
-    
+
     setUploading(false);
   };
 
   return (
     <div className="modalpost-overlay">
       <div className="edit-profile">
-        
         <form onSubmit={handleSubmit} className="editprofile-form">
-        <p>Edit Profile</p>
+          <p>Edit Profile</p>
           <div className="input-container">
-            <input className="upload-profile" type="file" accept="image/*" onChange={handleFileChange} />
+            <input
+              className="upload-profile"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </div>
 
           {/* Image preview section */}
           {imagePreview && (
-            <div className="image-preview">
+            <div className="image-previews">
               <img src={imagePreview} alt="Profile Preview" />
-              <label className="camera-icon" htmlFor="file-input" tooltip="Change profile">
+              <label
+                className="camera-icon"
+                htmlFor="file-input"
+                tooltip="Change profile"
+              >
                 <FaCamera />
-                <input id="file-input" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
               </label>
             </div>
           )}
-          
-          
           <p>Name</p>
           <div className="input-container">
             <MdPerson className="input-icon" />
@@ -105,6 +119,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.fullName}
               onChange={handleChange}
               required
+              className="text-input"
             />
           </div>
 
@@ -121,6 +136,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
+              className="email-input"
             />
           </div>
 
