@@ -149,6 +149,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.instagram}
               onChange={handleChange}
               placeholder="Instagram"
+              className="email-input"
             />
           </div>
 
@@ -160,6 +161,7 @@ const EditProfile = ({ user, onClose }) => {
               value={formData.twitter}
               onChange={handleChange}
               placeholder="Twitter"
+              className="email-input"
             />
           </div>
 
