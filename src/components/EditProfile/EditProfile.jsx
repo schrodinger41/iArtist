@@ -95,6 +95,7 @@ const EditProfile = ({ user, onClose }) => {
             </div>
           )}
           
+          
           <p>Name</p>
           <div className="input-container">
             <MdPerson className="input-icon" />
